@@ -1,0 +1,21 @@
+@import "tailwindcss";
+
+.help-tooltip::before {
+  content: '';
+  position: absolute;
+  top: -5px;
+  right: 10px;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-bottom: 5px solid #1e293b;
+}
+
+.chart-series-toggle:focus-within .chart-series-toggle__track {
+  outline: 2px solid #10b981;
+  outline-offset: 2px;
+}
+
+.chart-series-toggle__input:focus-visible + .chart-series-toggle__track {
+  outline: 2px solid #10b981;
+  outline-offset: 2px;
+}
