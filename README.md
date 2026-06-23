@@ -1,73 +1,68 @@
-# React + TypeScript + Vite
+# PK Simulator
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Interactive pharmacokinetics (PK) model simulator for studying oral drug absorption, analytical solutions, and numerical integration methods.
 
-Currently, two official plugins are available:
+Built as a university project for mathematical and computer modeling.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## Features
 
-## React Compiler
+- **Single-dose analysis** — compare Bateman (two-compartment), one-compartment, Euler, and RK4 curves
+- **Multi-dose simulation** — drug accumulation with a therapeutic safety window (RK4)
+- **Error metrics** — MAPE for Euler and RK4 vs. the analytical Bateman solution
+- **Interactive parameters** — dose, absorption/elimination rates, volume, step size, dosing interval
+- **Equation reference** — LaTeX formulas rendered with KaTeX
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Tech Stack
 
-## Expanding the ESLint configuration
+- React 19 + TypeScript
+- Vite
+- Tailwind CSS v4
+- Recharts
+- KaTeX
+- Lucide React
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## Getting Started
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+npm install
+npm run dev
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+Open the URL shown in the terminal (usually `http://localhost:5173`).
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+### Other scripts
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+| Command         | Description              |
+| --------------- | ------------------------ |
+| `npm run build` | Production build         |
+| `npm run preview` | Preview production build |
+| `npm run lint`  | Run ESLint               |
+
+## Project Structure
+
 ```
+src/
+├── components/       # UI (Header, Sidebar, charts, tabs)
+├── hooks/
+│   └── useSimulation.ts   # Orchestrates simulation from parameters
+├── utils/
+│   └── solvers.ts         # Pure PK math (Bateman, Euler, RK4)
+├── App.tsx           # Root layout and parameter state
+├── main.tsx          # Entry point
+└── index.css         # Tailwind imports
+```
+
+## Architecture
+
+```
+User → App (parameters) → useSimulation → solvers.ts → charts & metrics
+```
+
+- **App** holds simulation parameters
+- **useSimulation** derives results when parameters change
+- **solvers.ts** contains all mathematical logic (no React)
+- **Components** display data and handle user input
+
+## License
+
+Private / educational use.
